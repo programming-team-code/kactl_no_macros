@@ -6,6 +6,8 @@ git submodule init
 git submodule update
 
 for header in ./kactl/content/**/*.h; do
+  shortened_path=${header/\/kactl\/content/}
+  mkdir -p $(dirname "$shortened_path")
   # explanation: something like
   #
   # cpp -std=c17 -nostdinc -C -P <(cat kactl_macros.h "$header")
@@ -20,7 +22,7 @@ for header in ./kactl/content/**/*.h; do
   #
   # Then concatenate in kactl_macros.h and run cpp command again to expand
   # macros.
-  cpp -std=c17 -nostdinc -C -P "$header" | cat kactl_macros.h - | cpp -std=c17 -nostdinc -C -P > "${header/\/kactl\/content/}"
+  cpp -std=c17 -nostdinc -C -P "$header" | cat kactl_macros.h - | cpp -std=c17 -nostdinc -C -P - -o "$shortened_path"
 done
 
 # the cpp preprocessor sometimes leaves blank empty lines
