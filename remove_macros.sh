@@ -12,7 +12,7 @@ for header in ./kactl/content/**/*.h; do
   # in order to expand the kactl macros, you need to copy-paste the macros into
   # the beginning of each .h file
   cat kactl_macros.h "$header" > chicken
-  cpp -std=c17 -nostdinc -C -P chicken "${header/\/content/}"
+  cpp -std=c17 -nostdinc -C -P chicken "${header/\/kactl\/content/}"
 done
 
 rm chicken
