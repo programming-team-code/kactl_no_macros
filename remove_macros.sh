@@ -25,6 +25,9 @@ for header in ./kactl/content/**/*.h; do
   cpp -std=c17 -nostdinc -C -P "$header" | cat kactl_macros.h - | cpp -std=c17 -nostdinc -C -P - -o "$shortened_path"
 done
 
+# so below changes don't affect kactl submodule
+git submodule deinit kactl
+
 # the cpp preprocessor sometimes leaves blank empty lines
 sed --in-place '/^[[:space:]]*$/d' ./**/*.h
 # cpp command messes up formatting
