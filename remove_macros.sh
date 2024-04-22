@@ -7,7 +7,7 @@ git submodule update
 
 for header in ./kactl/content/**/*.h; do
   shortened_path=${header/\/kactl\/content/}
-  mkdir -p $(dirname "$shortened_path")
+  mkdir -p "$(dirname "$shortened_path")"
   # explanation: something like
   #
   # cpp -std=c17 -nostdinc -C -P <(cat kactl_macros.h "$header")
