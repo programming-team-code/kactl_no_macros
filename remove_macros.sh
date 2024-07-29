@@ -25,10 +25,7 @@ for header in ./kactl/content/**/*.h; do
   cpp -std=c17 -nostdinc -C -P "$header" | cat kactl_macros.h - | cpp -std=c17 -nostdinc -C -P - -o "$shortened_path"
 done
 
-# so below changes don't affect kactl submodule
-git submodule deinit --force kactl
-
 # the cpp preprocessor sometimes leaves blank empty lines
-sed --in-place '/^[[:space:]]*$/d' ./**/*.h
+sed --in-place '/^[[:space:]]*$/d' $(find . -path ./kactl -prune -o -name '*.h')
 # cpp command messes up formatting
-clang-format -i --style=file:.clang-format ./**/*.h
+clang-format -i --style=file:.clang-format $(find . -path ./kactl -prune -o -name '*.h')
