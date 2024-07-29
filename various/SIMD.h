@@ -10,4 +10,4 @@
  * If AVX is unsupported, try 128-bit operations, "emmintrin.h" and \#define \texttt{\_\_SSE\_\_} and \texttt{\_\_MMX\_\_} before including it.
  * For aligned memory use \texttt{\_mm\_malloc(size, 32)} or \texttt{int buf[N] alignas(32)}, but prefer loadu/storeu.
  */
-#pragma GCC target("avx2")
+#pragma GCC target("avx2")  // or sse4.1

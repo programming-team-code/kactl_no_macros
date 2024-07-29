@@ -36,8 +36,7 @@ vector<int> edgeColoring(int N, vector<pair<int, int>> eds) {
     adj[u][d] = fan[i];
     adj[fan[i]][d] = u;
     for (int y : {fan[0], u, end})
-      for (int& z = free[y] = 0; adj[y][z] != -1; z++)
-        ;
+      for (int& z = free[y] = 0; adj[y][z] != -1; z++);
   }
   for (int i = 0; i < ((int)(eds).size()); i++)
     for (tie(u, v) = eds[i]; adj[u][ret[i]] != v;) ++ret[i];

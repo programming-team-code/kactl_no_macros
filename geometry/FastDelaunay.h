@@ -102,8 +102,7 @@ pair<Q, Q> rec(const vector<P>& s) {
   tie(ra, A) = rec({begin(s), end(s) - half});
   tie(B, rb) = rec({(int)(s).size() - half + begin(s), end(s)});
   while ((B->p.cross(A->F(), A->p) < 0 && (A = A->next())) ||
-         (A->p.cross(B->F(), B->p) > 0 && (B = B->r()->o)))
-    ;
+         (A->p.cross(B->F(), B->p) > 0 && (B = B->r()->o)));
   Q base = connect(B->r(), A);
   if (A->p == ra->p) ra = base->r();
   if (B->p == rb->p) rb = base;
