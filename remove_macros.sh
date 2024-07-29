@@ -3,7 +3,7 @@
 shopt -s globstar
 
 git submodule init
-git submodule update
+git submodule update --remote --merge
 
 for header in ./kactl/content/**/*.h; do
   shortened_path=${header/\/kactl\/content/}
@@ -26,7 +26,7 @@ for header in ./kactl/content/**/*.h; do
 done
 
 # so below changes don't affect kactl submodule
-git submodule deinit kactl
+git submodule deinit --force kactl
 
 # the cpp preprocessor sometimes leaves blank empty lines
 sed --in-place '/^[[:space:]]*$/d' ./**/*.h
