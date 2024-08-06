@@ -95,17 +95,17 @@ struct Node {
 template <bool VALS_EDGES> struct HLD {
   int N, tim = 0;
   vector<vector<int>> adj;
-  vector<int> par, siz, depth, rt, pos;
+  vector<int> par, siz, rt, pos;
   Node* tree;
   HLD(vector<vector<int>> adj_)
-      : N((int)(adj_).size()), adj(adj_), par(N, -1), siz(N, 1), depth(N), rt(N), pos(N), tree(new Node(0, N)) {
+      : N((int)(adj_).size()), adj(adj_), par(N, -1), siz(N, 1), rt(N), pos(N), tree(new Node(0, N)) {
     dfsSz(0);
     dfsHld(0);
   }
   void dfsSz(int v) {
     if (par[v] != -1) adj[v].erase(find(begin(adj[v]), end(adj[v]), par[v]));
     for (int& u : adj[v]) {
-      par[u] = v, depth[u] = depth[v] + 1;
+      par[u] = v;
       dfsSz(u);
       siz[v] += siz[u];
       if (siz[u] > siz[adj[v][0]]) swap(u, adj[v][0]);
@@ -120,10 +120,10 @@ template <bool VALS_EDGES> struct HLD {
   }
   template <class B> void process(int u, int v, B op) {
     for (; rt[u] != rt[v]; v = par[rt[v]]) {
-      if (depth[rt[u]] > depth[rt[v]]) swap(u, v);
+      if (pos[rt[u]] > pos[rt[v]]) swap(u, v);
       op(pos[rt[v]], pos[v] + 1);
     }
-    if (depth[u] > depth[v]) swap(u, v);
+    if (pos[u] > pos[v]) swap(u, v);
     op(pos[u] + VALS_EDGES, pos[v] + 1);
   }
   void modifyPath(int u, int v, int val) {
