@@ -19,8 +19,8 @@ struct SuffixArray {
   vector<int> sa, lcp;
   SuffixArray(string& s, int lim = 256) {  // or basic_string<int>
     int n = (int)(s).size() + 1, k = 0, a, b;
-    vector<int> x(begin(s), end(s) + 1), y(n), ws(max(n, lim)), rank(n);
-    sa = lcp = y, iota(begin(sa), end(sa), 0);
+    vector<int> x(begin(s), end(s)), y(n), ws(max(n, lim)), rank(n);
+    x.push_back(0), sa = lcp = y, iota(begin(sa), end(sa), 0);
     for (int j = 0, p = 0; p < n; j = max(1, j * 2), lim = p) {
       p = j, iota(begin(y), end(y), n - j);
       for (int i = 0; i < (n); i++)
