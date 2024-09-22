@@ -1,14 +1,15 @@
 /**
  * Author: User adamant on CodeForces
  * Source: http://codeforces.com/blog/entry/12143
- * Description: For each position in a string, computes p[0][i] = half length of
- *  longest even palindrome around pos i, p[1][i] = longest odd (half rounded down).
- * Time: O(N)
- * Status: Stress-tested
+ * Description: For each position in a string, computes
+ * p[0][i] = half length of longest even palindrome around
+ * pos i, p[1][i] = longest odd (half rounded down). Time:
+ * O(N) Status: Stress-tested
  */
 array<vector<int>, 2> manacher(const string& s) {
   int n = (int)(s).size();
-  array<vector<int>, 2> p = {vector<int>(n + 1), vector<int>(n)};
+  array<vector<int>, 2> p = {
+    vector<int>(n + 1), vector<int>(n)};
   for (int z = 0; z < (2); z++)
     for (int i = 0, l = 0, r = 0; i < n; i++) {
       int t = r - i + !z;

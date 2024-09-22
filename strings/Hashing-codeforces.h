@@ -3,20 +3,20 @@
  * Date: 2015-03-15
  * License: CC0
  * Source: own work
- * Description: Various self-explanatory methods for string hashing.
- * Use on Codeforces, which lacks 64-bit support and where solutions can be hacked.
- * Status: stress-tested
+ * Description: Various self-explanatory methods for string
+ * hashing. Use on Codeforces, which lacks 64-bit support
+ * and where solutions can be hacked. Status: stress-tested
  */
 typedef uint64_t ull;
-static int C;  // initialized below
+static int C; // initialized below
 // Arithmetic mod two primes and 2^32 simultaneously.
-// "typedef uint64_t H;" instead if Thue-Morse does not apply.
-template <int M, class B>
-struct A {
+// "typedef uint64_t H;" instead if Thue-Morse does not
+// apply.
+template<int M, class B> struct A {
   int x;
   B b;
-  A(int x = 0) : x(x), b(x) {}
-  A(int x, B b) : x(x), b(b) {}
+  A(int x = 0): x(x), b(x) {}
+  A(int x, B b): x(x), b(b) {}
   A operator+(A o) {
     int y = x + o.x;
     return {y - (y >= M) * M, b + o.b};
@@ -25,21 +25,28 @@ struct A {
     int y = x - o.x;
     return {y + (y < 0) * M, b - o.b};
   }
-  A operator*(A o) { return {(int)(1LL * x * o.x % M), b * o.b}; }
+  A operator*(A o) {
+    return {(int)(1LL * x * o.x % M), b * o.b};
+  }
   explicit operator ull() { return x ^ (ull)b << 21; }
-  bool operator==(A o) const { return (ull) * this == (ull)o; }
-  bool operator<(A o) const { return (ull) * this < (ull)o; }
+  bool operator==(A o) const {
+    return (ull) * this == (ull)o;
+  }
+  bool operator<(A o) const {
+    return (ull) * this < (ull)o;
+  }
 };
 typedef A<1000000007, A<1000000009, unsigned>> H;
 struct HashInterval {
   vector<H> ha, pw;
-  HashInterval(string& str) : ha((int)(str).size() + 1), pw(ha) {
+  HashInterval(string& str):
+    ha((int)(str).size() + 1), pw(ha) {
     pw[0] = 1;
     for (int i = 0; i < ((int)(str).size()); i++)
       ha[i + 1] = ha[i] * C + str[i],
              pw[i + 1] = pw[i] * C;
   }
-  H hashInterval(int a, int b) {  // hash [a, b)
+  H hashInterval(int a, int b) { // hash [a, b)
     return ha[b] - ha[a] * pw[b - a];
   }
 };
@@ -50,7 +57,8 @@ vector<H> getHashes(string& str, int length) {
     h = h * C + str[i], pw = pw * C;
   vector<H> ret = {h};
   for (int i = length; i < ((int)(str).size()); i++) {
-    ret.push_back(h = h * C + str[i] - pw * str[i - length]);
+    ret.push_back(h =
+                    h * C + str[i] - pw * str[i - length]);
   }
   return ret;
 }
@@ -62,7 +70,7 @@ H hashString(string& s) {
 int main() {
   timeval tp;
   gettimeofday(&tp, 0);
-  C = (int)tp.tv_usec;  // (less than modulo)
+  C = (int)tp.tv_usec; // (less than modulo)
   assert((ull)(H(1) * 2 + 1 - 3) == 0);
   // ...
 }

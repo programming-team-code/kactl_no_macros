@@ -3,9 +3,9 @@
  * Date: 2016-09-06
  * License: CC0
  * Source: folklore
- * Description: Calculates determinant of a matrix. Destroys the matrix.
- * Time: $O(N^3)$
- * Status: somewhat tested
+ * Description: Calculates determinant of a matrix.
+ * Destroys the matrix. Time: $O(N^3)$ Status: somewhat
+ * tested
  */
 double det(vector<vector<double>>& a) {
   int n = (int)(a).size();
@@ -20,7 +20,8 @@ double det(vector<vector<double>>& a) {
     for (int j = i + 1; j < (n); j++) {
       double v = a[j][i] / a[i][i];
       if (v != 0)
-        for (int k = i + 1; k < (n); k++) a[j][k] -= v * a[i][k];
+        for (int k = i + 1; k < (n); k++)
+          a[j][k] -= v * a[i][k];
     }
   }
   return res;

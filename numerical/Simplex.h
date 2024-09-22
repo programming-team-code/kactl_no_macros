@@ -2,18 +2,22 @@
  * Author: Stanford
  * Source: Stanford Notebook
  * License: MIT
- * Description: Solves a general linear maximization problem: maximize $c^T x$ subject to $Ax \le b$, $x \ge 0$.
- * Returns -inf if there is no solution, inf if there are arbitrarily good solutions, or the maximum value of $c^T x$ otherwise.
- * The input vector is set to an optimal $x$ (or in the unbounded case, an arbitrary solution fulfilling the constraints).
- * Numerical stability is not guaranteed. For better performance, define variables such that $x = 0$ is viable.
- * Usage:
- * vvd A = {{1,-1}, {-1,1}, {-1,-2}};
- * vd b = {1,1,-4}, c = {-1,-1}, x;
- * T val = LPSolver(A, b, c).solve(x);
- * Time: O(NM * \#pivots), where a pivot may be e.g. an edge relaxation. O(2^n) in the general case.
- * Status: seems to work?
+ * Description: Solves a general linear maximization
+ * problem: maximize $c^T x$ subject to $Ax \le b$, $x \ge
+ * 0$. Returns -inf if there is no solution, inf if there
+ * are arbitrarily good solutions, or the maximum value of
+ * $c^T x$ otherwise. The input vector is set to an optimal
+ * $x$ (or in the unbounded case, an arbitrary solution
+ * fulfilling the constraints). Numerical stability is not
+ * guaranteed. For better performance, define variables
+ * such that $x = 0$ is viable. Usage: vvd A = {{1,-1},
+ * {-1,1}, {-1,-2}}; vd b = {1,1,-4}, c = {-1,-1}, x; T val
+ * = LPSolver(A, b, c).solve(x); Time: O(NM * \#pivots),
+ * where a pivot may be e.g. an edge relaxation. O(2^n) in
+ * the general case. Status: seems to work?
  */
-typedef double T;  // long double, Rational, double + mod<P>...
+typedef double
+  T; // long double, Rational, double + mod<P>...
 typedef vector<T> vd;
 typedef vector<vd> vvd;
 const T eps = 1e-8, inf = 1 / .0;
@@ -21,7 +25,9 @@ struct LPSolver {
   int m, n;
   vector<int> N, B;
   vvd D;
-  LPSolver(const vvd& A, const vd& b, const vd& c) : m((int)(b).size()), n((int)(c).size()), N(n + 1), B(m), D(m + 2, vd(n + 2)) {
+  LPSolver(const vvd& A, const vd& b, const vd& c):
+    m((int)(b).size()), n((int)(c).size()), N(n + 1), B(m),
+    D(m + 2, vd(n + 2)) {
     for (int i = 0; i < (m); i++)
       for (int j = 0; j < (n); j++) D[i][j] = A[i][j];
     for (int i = 0; i < (m); i++) {
@@ -41,7 +47,8 @@ struct LPSolver {
     for (int i = 0; i < (m + 2); i++)
       if (i != r && abs(D[i][s]) > eps) {
         T *b = D[i].data(), inv2 = b[s] * inv;
-        for (int j = 0; j < (n + 2); j++) b[j] -= a[j] * inv2;
+        for (int j = 0; j < (n + 2); j++)
+          b[j] -= a[j] * inv2;
         b[s] = a[s] * inv2;
       }
     for (int j = 0; j < (n + 2); j++)
@@ -57,12 +64,18 @@ struct LPSolver {
       int s = -1;
       for (int j = 0; j < (n + 1); j++)
         if (N[j] != -phase)
-          if (s == -1 || make_pair(D[x][j], N[j]) < make_pair(D[x][s], N[s])) s = j;
+          if (s == -1 ||
+            make_pair(D[x][j], N[j]) <
+              make_pair(D[x][s], N[s]))
+            s = j;
       if (D[x][s] >= -eps) return true;
       int r = -1;
       for (int i = 0; i < (m); i++) {
         if (D[i][s] <= eps) continue;
-        if (r == -1 || make_pair(D[i][n + 1] / D[i][s], B[i]) < make_pair(D[r][n + 1] / D[r][s], B[r])) r = i;
+        if (r == -1 ||
+          make_pair(D[i][n + 1] / D[i][s], B[i]) <
+            make_pair(D[r][n + 1] / D[r][s], B[r]))
+          r = i;
       }
       if (r == -1) return false;
       pivot(r, s);
@@ -74,12 +87,16 @@ struct LPSolver {
       if (D[i][n + 1] < D[r][n + 1]) r = i;
     if (D[r][n + 1] < -eps) {
       pivot(r, n);
-      if (!simplex(2) || D[m + 1][n + 1] < -eps) return -inf;
+      if (!simplex(2) || D[m + 1][n + 1] < -eps)
+        return -inf;
       for (int i = 0; i < (m); i++)
         if (B[i] == -1) {
           int s = 0;
           for (int j = 1; j < (n + 1); j++)
-            if (s == -1 || make_pair(D[i][j], N[j]) < make_pair(D[i][s], N[s])) s = j;
+            if (s == -1 ||
+              make_pair(D[i][j], N[j]) <
+                make_pair(D[i][s], N[s]))
+              s = j;
           pivot(i, s);
         }
     }

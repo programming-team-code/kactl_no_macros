@@ -2,20 +2,19 @@
  * Author: chilli
  * License: CC0
  * Source: Own work
- * Description: Read an integer from stdin. Usage requires your program to pipe in
- * input from file.
- * Usage: ./a.out < input.txt
- * Time: About 5x as fast as cin/scanf.
- * Status: tested on SPOJ INTEST, unit tested
+ * Description: Read an integer from stdin. Usage requires
+ * your program to pipe in input from file. Usage: ./a.out
+ * < input.txt Time: About 5x as fast as cin/scanf. Status:
+ * tested on SPOJ INTEST, unit tested
  */
-inline char gc() {  // like getchar()
+inline char gc() { // like getchar()
   static char buf[1 << 16];
   static size_t bc, be;
   if (bc >= be) {
     buf[0] = 0, bc = 0;
     be = fread(buf, 1, sizeof(buf), stdin);
   }
-  return buf[bc++];  // returns 0 on EOF
+  return buf[bc++]; // returns 0 on EOF
 }
 int readInt() {
   int a, c;

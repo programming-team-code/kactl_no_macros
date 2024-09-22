@@ -12,7 +12,7 @@
 struct RollbackUF {
   vector<int> e;
   vector<pair<int, int>> st;
-  RollbackUF(int n) : e(n, -1) {}
+  RollbackUF(int n): e(n, -1) {}
   int size(int x) { return -e[find(x)]; }
   int find(int x) { return e[x] < 0 ? x : find(e[x]); }
   int time() { return (int)(st).size(); }

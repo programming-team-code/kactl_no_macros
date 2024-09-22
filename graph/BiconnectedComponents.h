@@ -3,11 +3,12 @@
  * Date: 2017-04-17
  * License: CC0
  * Source: folklore
- * Description: Finds all biconnected components in an undirected graph, and
- *  runs a callback for the edges in each. In a biconnected component there
- *  are at least two distinct paths between any two nodes. Note that a node can
- *  be in several components. An edge which is not in a component is a bridge,
- *  i.e., not part of any cycle.
+ * Description: Finds all biconnected components in an
+ * undirected graph, and runs a callback for the edges in
+ * each. In a biconnected component there are at least two
+ * distinct paths between any two nodes. Note that a node
+ * can be in several components. An edge which is not in a
+ * component is a bridge, i.e., not part of any cycle.
  * Usage:
  *  int eid = 0; ed.resize(N);
  *  for each edge (a,b) {
@@ -20,15 +21,13 @@
 vector<int> num, st;
 vector<vector<pair<int, int>>> ed;
 int Time;
-template <class F>
-int dfs(int at, int par, F& f) {
+template<class F> int dfs(int at, int par, F& f) {
   int me = num[at] = ++Time, top = me;
   for (auto [y, e] : ed[at])
     if (e != par) {
       if (num[y]) {
         top = min(top, num[y]);
-        if (num[y] < me)
-          st.push_back(e);
+        if (num[y] < me) st.push_back(e);
       } else {
         int si = (int)(st).size();
         int up = dfs(y, e, f);
@@ -43,8 +42,7 @@ int dfs(int at, int par, F& f) {
     }
   return top;
 }
-template <class F>
-void bicomps(F f) {
+template<class F> void bicomps(F f) {
   num.assign((int)(ed).size(), 0);
   for (int i = 0; i < ((int)(ed).size()); i++)
     if (!num[i]) dfs(i, -1, f);

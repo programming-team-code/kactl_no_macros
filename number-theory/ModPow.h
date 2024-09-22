@@ -6,7 +6,7 @@
  * Description:
  * Status: tested
  */
-const int64_t mod = 1000000007;  // faster if const
+const int64_t mod = 1000000007; // faster if const
 int64_t modpow(int64_t b, int64_t e) {
   int64_t ans = 1;
   for (; e; b = b * b % mod, e /= 2)

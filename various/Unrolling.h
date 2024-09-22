@@ -9,7 +9,7 @@ int i = from;
 while (i & 3 && i < to) {
   ...;
   ++i;
-}  // for alignment, if needed
+} // for alignment, if needed
 while (i + 4 <= to) {
   {
     ...;

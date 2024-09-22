@@ -8,9 +8,9 @@
  * given $S[0 \ldots \ge n-1]$ and $tr[0 \ldots n-1]$.
  * Faster than matrix multiplication.
  * Useful together with Berlekamp--Massey.
- * Usage: linearRec({0, 1}, {1, 1}, k) // k'th Fibonacci number
- * Time: O(n^2 \log k)
- * Status: bruteforce-tested mod 5 for n <= 5
+ * Usage: linearRec({0, 1}, {1, 1}, k) // k'th Fibonacci
+ * number Time: O(n^2 \log k) Status: bruteforce-tested mod
+ * 5 for n <= 5
  */
 const int64_t mod = 5; /** exclude-line */
 typedef vector<int64_t> Poly;
@@ -23,7 +23,8 @@ int64_t linearRec(Poly S, Poly tr, int64_t k) {
         res[i + j] = (res[i + j] + a[i] * b[j]) % mod;
     for (int i = 2 * n; i > n; --i)
       for (int j = 0; j < (n); j++)
-        res[i - 1 - j] = (res[i - 1 - j] + res[i] * tr[j]) % mod;
+        res[i - 1 - j] =
+          (res[i - 1 - j] + res[i] * tr[j]) % mod;
     res.resize(n + 1);
     return res;
   };
@@ -34,6 +35,7 @@ int64_t linearRec(Poly S, Poly tr, int64_t k) {
     e = combine(e, e);
   }
   int64_t res = 0;
-  for (int i = 0; i < (n); i++) res = (res + pol[i + 1] * S[i]) % mod;
+  for (int i = 0; i < (n); i++)
+    res = (res + pol[i + 1] * S[i]) % mod;
   return res;
 }

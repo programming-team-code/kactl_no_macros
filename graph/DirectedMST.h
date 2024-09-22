@@ -2,12 +2,15 @@
  * Author: chilli, Takanori MAEHARA, Benq, Simon Lindholm
  * Date: 2019-05-10
  * License: CC0
- * Source: https://github.com/spaghetti-source/algorithm/blob/master/graph/arborescence.cc
- * and https://github.com/bqi343/USACO/blob/42d177dfb9d6ce350389583cfa71484eb8ae614c/Implementations/content/graphs%20(12)/Advanced/DirectedMST.h for the reconstruction
- * Description: Finds a minimum spanning
- * tree/arborescence of a directed graph, given a root node. If no MST exists, returns -1.
- * Time: O(E \log V)
- * Status: Stress-tested, also tested on NWERC 2018 fastestspeedrun
+ * Source:
+ * https://github.com/spaghetti-source/algorithm/blob/master/graph/arborescence.cc
+ * and
+ * https://github.com/bqi343/USACO/blob/42d177dfb9d6ce350389583cfa71484eb8ae614c/Implementations/content/graphs%20(12)/Advanced/DirectedMST.h
+ * for the reconstruction Description: Finds a minimum
+ * spanning tree/arborescence of a directed graph, given a
+ * root node. If no MST exists, returns -1. Time: O(E \log
+ * V) Status: Stress-tested, also tested on NWERC 2018
+ * fastestspeedrun
  */
 /**
  * Author: Lukas Polacek, Simon Lindholm
@@ -23,7 +26,7 @@
 struct RollbackUF {
   vector<int> e;
   vector<pair<int, int>> st;
-  RollbackUF(int n) : e(n, -1) {}
+  RollbackUF(int n): e(n, -1) {}
   int size(int x) { return -e[find(x)]; }
   int find(int x) { return e[x] < 0 ? x : find(e[x]); }
   int time() { return (int)(st).size(); }
@@ -47,7 +50,7 @@ struct Edge {
   int a, b;
   int64_t w;
 };
-struct Node {  /// lazy skew heap node
+struct Node { /// lazy skew heap node
   Edge key;
   Node *l, *r;
   int64_t delta;
@@ -73,10 +76,12 @@ void pop(Node*& a) {
   a->prop();
   a = merge(a->l, a->r);
 }
-pair<int64_t, vector<int>> dmst(int n, int r, vector<Edge>& g) {
+pair<int64_t, vector<int>> dmst(int n, int r,
+  vector<Edge>& g) {
   RollbackUF uf(n);
   vector<Node*> heap(n);
-  for (Edge e : g) heap[e.b] = merge(heap[e.b], new Node{e});
+  for (Edge e : g)
+    heap[e.b] = merge(heap[e.b], new Node{e});
   int64_t res = 0;
   vector<int> seen(n, -1), path(n), par(n);
   seen[r] = r;
@@ -90,7 +95,7 @@ pair<int64_t, vector<int>> dmst(int n, int r, vector<Edge>& g) {
       heap[u]->delta -= e.w, pop(heap[u]);
       Q[qi] = e, path[qi++] = u, seen[u] = s;
       res += e.w, u = uf.find(e.a);
-      if (seen[u] == s) {  /// found cycle, contract
+      if (seen[u] == s) { /// found cycle, contract
         Node* cyc = 0;
         int end = qi, time = uf.time();
         do cyc = merge(cyc, heap[w = path[--qi]]);
@@ -99,9 +104,11 @@ pair<int64_t, vector<int>> dmst(int n, int r, vector<Edge>& g) {
         cycs.push_front({u, time, {&Q[qi], &Q[end]}});
       }
     }
-    for (int i = 0; i < (qi); i++) in[uf.find(Q[i].b)] = Q[i];
+    for (int i = 0; i < (qi); i++)
+      in[uf.find(Q[i].b)] = Q[i];
   }
-  for (auto& [u, t, comp] : cycs) {  // restore sol (optional)
+  for (
+    auto& [u, t, comp] : cycs) { // restore sol (optional)
     uf.rollback(t);
     Edge inEdge = in[u];
     for (auto& e : comp) in[uf.find(e.b)] = e;

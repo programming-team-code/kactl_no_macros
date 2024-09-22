@@ -3,13 +3,14 @@
  * Date: 2009-10-13
  * License: CC0
  * Source: N/A
- * Description: Flow algorithm with guaranteed complexity $O(VE^2)$. To get edge flow values, compare
- * capacities before and after, and take the positive values only.
+ * Description: Flow algorithm with guaranteed complexity
+ * $O(VE^2)$. To get edge flow values, compare capacities
+ * before and after, and take the positive values only.
  * Status: stress-tested
  */
-template <class T> T edmondsKarp(vector<unordered_map<int, T>>&
-                                     graph,
-                                 int source, int sink) {
+template<class T>
+T edmondsKarp(vector<unordered_map<int, T>>& graph,
+  int source, int sink) {
   assert(source != sink);
   T flow = 0;
   vector<int> par((int)(graph).size()), q = par;
@@ -29,7 +30,7 @@ template <class T> T edmondsKarp(vector<unordered_map<int, T>>&
       }
     }
     return flow;
-  out:
+out:
     T inc = numeric_limits<T>::max();
     for (int y = sink; y != source; y = par[y])
       inc = min(inc, graph[par[y]][y]);

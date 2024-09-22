@@ -7,7 +7,8 @@
  * to support fast upward jumps and LCAs.
  * Assumes the root node points to itself.
  * Time: construction $O(N \log N)$, queries $O(\log N)$
- * Status: Tested at Petrozavodsk, also stress-tested via LCA.cpp
+ * Status: Tested at Petrozavodsk, also stress-tested via
+ * LCA.cpp
  */
 vector<vector<int>> treeJump(vector<int>& P) {
   int on = 1, d = 1;
@@ -23,7 +24,8 @@ int jmp(vector<vector<int>>& tbl, int nod, int steps) {
     if (steps & (1 << i)) nod = tbl[i][nod];
   return nod;
 }
-int lca(vector<vector<int>>& tbl, vector<int>& depth, int a, int b) {
+int lca(vector<vector<int>>& tbl, vector<int>& depth,
+  int a, int b) {
   if (depth[a] < depth[b]) swap(a, b);
   a = jmp(tbl, a, depth[a] - depth[b]);
   if (a == b) return a;

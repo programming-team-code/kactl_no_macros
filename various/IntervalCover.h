@@ -1,20 +1,22 @@
 /**
  * Author: Johan Sannemo
  * License: CC0
- * Description: Compute indices of smallest set of intervals covering another interval.
- * Intervals should be [inclusive, exclusive). To support [inclusive, inclusive],
- * change (A) to add \texttt{|| R.empty()}. Returns empty set on failure (or if G is empty).
- * Time: O(N \log N)
- * Status: Tested on kattis:intervalcover
+ * Description: Compute indices of smallest set of
+ * intervals covering another interval. Intervals should be
+ * [inclusive, exclusive). To support [inclusive,
+ * inclusive], change (A) to add \texttt{|| R.empty()}.
+ * Returns empty set on failure (or if G is empty). Time:
+ * O(N \log N) Status: Tested on kattis:intervalcover
  */
-template <class T>
+template<class T>
 vector<int> cover(pair<T, T> G, vector<pair<T, T>> I) {
   vector<int> S((int)(I).size()), R;
   iota(begin(S), end(S), 0);
-  sort(begin(S), end(S), [&](int a, int b) { return I[a] < I[b]; });
+  sort(begin(S), end(S),
+    [&](int a, int b) { return I[a] < I[b]; });
   T cur = G.first;
   int at = 0;
-  while (cur < G.second) {  // (A)
+  while (cur < G.second) { // (A)
     pair<T, int> mx = make_pair(cur, -1);
     while (at < (int)(I).size() && I[S[at]].first <= cur) {
       mx = max(mx, make_pair(I[S[at]].second, S[at]));

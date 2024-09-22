@@ -3,27 +3,31 @@
  * Date: 2009-10-13
  * License: CC0
  * Source: N/A
- * Description: Fast bipartite matching algorithm. Graph $g$ should be a list
- * of neighbors of the left partition, and $btoa$ should be a vector full of
- * -1's of the same size as the right partition. Returns the size of
- * the matching. $btoa[i]$ will be the match for vertex $i$ on the right side,
- * or $-1$ if it's not matched.
- * Usage: vi btoa(m, -1); hopcroftKarp(g, btoa);
- * Time: O(\sqrt{V}E)
- * Status: stress-tested by MinimumVertexCover, and tested on oldkattis.adkbipmatch and SPOJ:MATCHING
+ * Description: Fast bipartite matching algorithm. Graph
+ * $g$ should be a list of neighbors of the left partition,
+ * and $btoa$ should be a vector full of -1's of the same
+ * size as the right partition. Returns the size of the
+ * matching. $btoa[i]$ will be the match for vertex $i$ on
+ * the right side, or $-1$ if it's not matched. Usage: vi
+ * btoa(m, -1); hopcroftKarp(g, btoa); Time: O(\sqrt{V}E)
+ * Status: stress-tested by MinimumVertexCover, and tested
+ * on oldkattis.adkbipmatch and SPOJ:MATCHING
  */
-bool dfs(int a, int L, vector<vector<int>>& g, vector<int>& btoa, vector<int>& A, vector<int>& B) {
+bool dfs(int a, int L, vector<vector<int>>& g,
+  vector<int>& btoa, vector<int>& A, vector<int>& B) {
   if (A[a] != L) return 0;
   A[a] = -1;
   for (int b : g[a])
     if (B[b] == L + 1) {
       B[b] = 0;
-      if (btoa[b] == -1 || dfs(btoa[b], L + 1, g, btoa, A, B))
+      if (btoa[b] == -1 ||
+        dfs(btoa[b], L + 1, g, btoa, A, B))
         return btoa[b] = a, 1;
     }
   return 0;
 }
-int hopcroftKarp(vector<vector<int>>& g, vector<int>& btoa) {
+int hopcroftKarp(vector<vector<int>>& g,
+  vector<int>& btoa) {
   int res = 0;
   vector<int> A(g.size()), B(btoa.size()), cur, next;
   for (;;) {

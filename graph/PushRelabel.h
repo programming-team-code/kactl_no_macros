@@ -3,10 +3,11 @@
  * Date: 2015-02-24
  * License: CC0
  * Source: Wikipedia, tinyKACTL
- * Description: Push-relabel using the highest label selection rule and the gap heuristic. Quite fast in practice.
- *  To obtain the actual flow, look at positive values only.
- * Time: $O(V^2\sqrt E)$
- * Status: Tested on Kattis and SPOJ, and stress-tested
+ * Description: Push-relabel using the highest label
+ * selection rule and the gap heuristic. Quite fast in
+ * practice. To obtain the actual flow, look at positive
+ * values only. Time: $O(V^2\sqrt E)$ Status: Tested on
+ * Kattis and SPOJ, and stress-tested
  */
 struct PushRelabel {
   struct Edge {
@@ -18,8 +19,10 @@ struct PushRelabel {
   vector<Edge*> cur;
   vector<vector<int>> hs;
   vector<int> H;
-  PushRelabel(int n) : g(n), ec(n), cur(n), hs(2 * n), H(n) {}
-  void addEdge(int s, int t, int64_t cap, int64_t rcap = 0) {
+  PushRelabel(int n):
+    g(n), ec(n), cur(n), hs(2 * n), H(n) {}
+  void addEdge(int s, int t, int64_t cap,
+    int64_t rcap = 0) {
     if (s == t) return;
     g[s].push_back({t, (int)(g[t]).size(), 0, cap});
     g[t].push_back({s, (int)(g[s]).size() - 1, 0, rcap});
@@ -47,7 +50,7 @@ struct PushRelabel {
         if (!hi--) return -ec[s];
       int u = hs[hi].back();
       hs[hi].pop_back();
-      while (ec[u] > 0)  // discharge u
+      while (ec[u] > 0) // discharge u
         if (cur[u] == g[u].data() + (int)(g[u]).size()) {
           H[u] = 1e9;
           for (Edge& e : g[u])
@@ -58,10 +61,13 @@ struct PushRelabel {
               if (hi < H[i] && H[i] < v)
                 --co[H[i]], H[i] = v + 1;
           hi = H[u];
-        } else if (cur[u]->c && H[u] == H[cur[u]->dest] + 1)
+        } else if (
+          cur[u]->c && H[u] == H[cur[u]->dest] + 1)
           addFlow(*cur[u], min(ec[u], cur[u]->c));
         else ++cur[u];
     }
   }
-  bool leftOfMinCut(int a) { return H[a] >= (int)(g).size(); }
+  bool leftOfMinCut(int a) {
+    return H[a] >= (int)(g).size();
+  }
 };

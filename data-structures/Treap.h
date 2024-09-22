@@ -11,12 +11,12 @@
 struct Node {
   Node *l = 0, *r = 0;
   int val, y, c = 1;
-  Node(int val) : val(val), y(rand()) {}
+  Node(int val): val(val), y(rand()) {}
   void recalc();
 };
 int cnt(Node* n) { return n ? n->c : 0; }
 void Node::recalc() { c = cnt(l) + cnt(r) + 1; }
-template <class F> void each(Node* n, F f) {
+template<class F> void each(Node* n, F f) {
   if (n) {
     each(n->l, f);
     f(n->val);
@@ -25,13 +25,14 @@ template <class F> void each(Node* n, F f) {
 }
 pair<Node*, Node*> split(Node* n, int k) {
   if (!n) return {};
-  if (cnt(n->l) >= k) {  // "n->val >= k" for lower_bound(k)
+  if (cnt(n->l) >= k) { // "n->val >= k" for lower_bound(k)
     auto pa = split(n->l, k);
     n->l = pa.second;
     n->recalc();
     return {pa.first, n};
   } else {
-    auto pa = split(n->r, k - cnt(n->l) - 1);  // and just "k"
+    auto pa =
+      split(n->r, k - cnt(n->l) - 1); // and just "k"
     n->r = pa.first;
     n->recalc();
     return {n, pa.second};

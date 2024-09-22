@@ -3,11 +3,11 @@
  * Date: 2015-02-04
  * License: CC0
  * Source: Johan Sannemo
- * Description: Poor man's optimization for unimodal functions.
- * Status: used with great success
+ * Description: Poor man's optimization for unimodal
+ * functions. Status: used with great success
  */
 typedef array<double, 2> P;
-template <class F> pair<double, P> hillClimb(P start, F f) {
+template<class F> pair<double, P> hillClimb(P start, F f) {
   pair<double, P> cur(f(start), start);
   for (double jmp = 1e9; jmp > 1e-20; jmp /= 2) {
     for (int j = 0; j < (100); j++)

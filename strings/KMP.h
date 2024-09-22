@@ -2,11 +2,11 @@
  * Author: Johan Sannemo
  * Date: 2016-12-15
  * License: CC0
- * Description: pi[x] computes the length of the longest prefix of s that ends at x,
- * other than s[0...x] itself (abacaba -> 0010123).
- * Can be used to find all occurrences of a string.
- * Time: O(n)
- * Status: Tested on kattis:stringmatching
+ * Description: pi[x] computes the length of the longest
+ * prefix of s that ends at x, other than s[0...x] itself
+ * (abacaba -> 0010123). Can be used to find all
+ * occurrences of a string. Time: O(n) Status: Tested on
+ * kattis:stringmatching
  */
 vector<int> pi(const string& s) {
   vector<int> p((int)(s).size());
@@ -19,7 +19,9 @@ vector<int> pi(const string& s) {
 }
 vector<int> match(const string& s, const string& pat) {
   vector<int> p = pi(pat + '\0' + s), res;
-  for (int i = (int)(p).size() - (int)(s).size(); i < ((int)(p).size()); i++)
-    if (p[i] == (int)(pat).size()) res.push_back(i - 2 * (int)(pat).size());
+  for (int i = (int)(p).size() - (int)(s).size();
+       i < ((int)(p).size()); i++)
+    if (p[i] == (int)(pat).size())
+      res.push_back(i - 2 * (int)(pat).size());
   return res;
 }

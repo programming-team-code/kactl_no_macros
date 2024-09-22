@@ -1,14 +1,16 @@
 /**
  * Author: Simon Lindholm
  * Date: 2016-07-25
- * Source: https://github.com/ngthanhtrung23/ACM_Notebook_new/blob/master/DataStructure/LinkCut.h
- * Description: Represents a forest of unrooted trees. You can add and remove
- * edges (as long as the result is still a forest), and check whether
- * two nodes are in the same tree.
- * Time: All operations take amortized O(\log N).
+ * Source:
+ * https://github.com/ngthanhtrung23/ACM_Notebook_new/blob/master/DataStructure/LinkCut.h
+ * Description: Represents a forest of unrooted trees. You
+ * can add and remove edges (as long as the result is still
+ * a forest), and check whether two nodes are in the same
+ * tree. Time: All operations take amortized O(\log N).
  * Status: Stress-tested a bit for N <= 20
  */
-struct Node {  // Splay tree. Root's pp contains tree's parent.
+struct Node { // Splay tree. Root's pp contains tree's
+              // parent.
   Node *p = 0, *pp = 0, *c[2];
   bool flip = 0;
   Node() {
@@ -30,7 +32,8 @@ struct Node {  // Splay tree. Root's pp contains tree's parent.
   int up() { return p ? p->c[1] == this : -1; }
   void rot(int i, int b) {
     int h = i ^ b;
-    Node *x = c[i], *y = b == 2 ? x : x->c[h], *z = b ? y : x;
+    Node *x = c[i], *y = b == 2 ? x : x->c[h],
+         *z = b ? y : x;
     if ((y->p = p)) p->c[up()] = y;
     c[i] = z->c[i ^ 1];
     if (b < 2) {
@@ -44,7 +47,8 @@ struct Node {  // Splay tree. Root's pp contains tree's parent.
     if (p) p->fix();
     swap(pp, y->pp);
   }
-  void splay() {  /// Splay this up to the root. Always finishes without flip set.
+  void splay() { /// Splay this up to the root. Always
+                 /// finishes without flip set.
     for (pushFlip(); p;) {
       if (p->p) p->p->pushFlip();
       p->pushFlip();
@@ -54,20 +58,21 @@ struct Node {  // Splay tree. Root's pp contains tree's parent.
       else p->p->rot(c2, c1 != c2);
     }
   }
-  Node* first() {  /// Return the min element of the subtree rooted at this, splayed to the top.
+  Node* first() { /// Return the min element of the subtree
+                  /// rooted at this, splayed to the top.
     pushFlip();
     return c[0] ? c[0]->first() : (splay(), this);
   }
 };
 struct LinkCut {
   vector<Node> node;
-  LinkCut(int N) : node(N) {}
-  void link(int u, int v) {  // add an edge (u, v)
+  LinkCut(int N): node(N) {}
+  void link(int u, int v) { // add an edge (u, v)
     assert(!connected(u, v));
     makeRoot(&node[u]);
     node[u].pp = &node[v];
   }
-  void cut(int u, int v) {  // remove an edge (u, v)
+  void cut(int u, int v) { // remove an edge (u, v)
     Node *x = &node[u], *top = &node[v];
     makeRoot(top);
     x->splay();
@@ -78,11 +83,13 @@ struct LinkCut {
       x->fix();
     }
   }
-  bool connected(int u, int v) {  // are u, v in the same tree?
+  bool connected(int u,
+    int v) { // are u, v in the same tree?
     Node* nu = access(&node[u])->first();
     return nu == access(&node[v])->first();
   }
-  void makeRoot(Node* u) {  /// Move u to root of represented tree.
+  void makeRoot(
+    Node* u) { /// Move u to root of represented tree.
     access(u);
     u->splay();
     if (u->c[0]) {
@@ -93,7 +100,9 @@ struct LinkCut {
       u->fix();
     }
   }
-  Node* access(Node* u) {  /// Move u to root aux tree. Return the root of the root aux tree.
+  Node* access(
+    Node* u) { /// Move u to root aux tree. Return the root
+               /// of the root aux tree.
     u->splay();
     while (Node* pp = u->pp) {
       pp->splay();

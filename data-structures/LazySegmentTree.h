@@ -3,11 +3,12 @@
  * Date: 2016-10-08
  * License: CC0
  * Source: me
- * Description: Segment tree with ability to add or set values of large intervals, and compute max of intervals.
+ * Description: Segment tree with ability to add or set
+ * values of large intervals, and compute max of intervals.
  * Can be changed to other things.
- * Use with a bump allocator for better performance, and SmallPtr or implicit indices to save memory.
- * Time: O(\log N).
- * Usage: Node* tr = new Node(v, 0, sz(v));
+ * Use with a bump allocator for better performance, and
+ * SmallPtr or implicit indices to save memory. Time:
+ * O(\log N). Usage: Node* tr = new Node(v, 0, sz(v));
  * Status: stress-tested a bit
  */
 /**
@@ -15,9 +16,10 @@
  * Date: 2015-09-12
  * License: CC0
  * Source: me
- * Description: When you need to dynamically allocate many objects and don't care about freeing them.
- * "new X" otherwise has an overhead of something like 0.05us + 16 bytes per allocation.
- * Status: tested
+ * Description: When you need to dynamically allocate many
+ * objects and don't care about freeing them. "new X"
+ * otherwise has an overhead of something like 0.05us + 16
+ * bytes per allocation. Status: tested
  */
 // Either globally or in a single class:
 static char buf[450 << 20];
@@ -31,8 +33,9 @@ const int inf = 1e9;
 struct Node {
   Node *l = 0, *r = 0;
   int lo, hi, mset = inf, madd = 0, val = -inf;
-  Node(int lo, int hi) : lo(lo), hi(hi) {}  // Large interval of -inf
-  Node(vector<int>& v, int lo, int hi) : lo(lo), hi(hi) {
+  Node(int lo, int hi):
+    lo(lo), hi(hi) {} // Large interval of -inf
+  Node(vector<int>& v, int lo, int hi): lo(lo), hi(hi) {
     if (lo + 1 < hi) {
       int mid = lo + (hi - lo) / 2;
       l = new Node(v, lo, mid);
@@ -72,7 +75,8 @@ struct Node {
       r = new Node(mid, hi);
     }
     if (mset != inf)
-      l->set(lo, hi, mset), r->set(lo, hi, mset), mset = inf;
+      l->set(lo, hi, mset), r->set(lo, hi, mset),
+        mset = inf;
     else if (madd)
       l->add(lo, hi, madd), r->add(lo, hi, madd), madd = 0;
   }
